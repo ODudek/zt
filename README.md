@@ -1,21 +1,15 @@
 # ZT project
 
-  
+Projekt strony dla zespołu testów w Cyfrowym Polsacie
 
 ## TODO
 
 1. - [ ] Zrobić modal
-
 		- [ ] - Uzupełnianie go aktualnymi danymi [5]
-
 		- [ ] - Zrobić animacje [1]
-
 2. - [x] - Zrobić formularz dodawania urządzeń
-
 3. - [ ] Zrobić powiadomienia o zaktualizowaniu, dodaniu oraz usunieciu urzadzenia [3]
-
 4. - [ ] Zrobić sortowanie kolumn [5]
-
 5. - [ ] Panel administracyjny pod adresem `localhost:port/admin` [10]
 		- [ ] - Przenieść tam dodawanie urządzeń
 		- [ ] - Dodawanie urlopu
