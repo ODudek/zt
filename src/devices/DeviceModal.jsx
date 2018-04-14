@@ -53,7 +53,6 @@ class DeviceModal extends React.Component {
         this.props.onDeviceUpdate(id, device);
         this.setState({ toBeUpdated: false, model: '', system: '', available: 'Niedostępne', holder: ''}); 
         this.props.isUpdated(this.state.toBeUpdated) 
-        console.log(this.state); 
     }
 
     render() {

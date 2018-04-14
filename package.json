@@ -1,6 +1,6 @@
 {
   "name": "zt",
-  "version": "0.0.§",
+  "version": "0.0.3",
   "private": true,
   "dependencies": {
     "axios": "^0.18.0",

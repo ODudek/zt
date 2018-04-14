@@ -33,15 +33,17 @@ class Device extends React.Component{
                 <td>{this.props.children[2]}</td>
                 <td>{this.props.children[3]}</td>    
                 <td>
-                    <div className="columns is-2">
-                        <div className="column is-one-fifth">
+                    <div className="columns">
+                        <div className="column is-3">
                             <button href="#" onClick={this.updateDevice} className="button">update</button>                    
                         </div>
-                        <div className="column">
+                        <div className="column is-3">
                             <button href="#" onClick={this.deleteDevice} className="button is-danger">delete</button>    
                         </div>
                     </div>
-                    {(this.state.toBeUpdated) ? (<DeviceModal uniqueID={this.props.uniqueID} isUpdated={ this.isUpdated } onDeviceUpdate={ this.props.onDeviceUpdate }/>): null}                
+                    {(this.state.toBeUpdated) ? 
+                    <DeviceModal uniqueID={this.props.uniqueID} isUpdated={ this.isUpdated } onDeviceUpdate={ this.props.onDeviceUpdate }/>
+                    : null}                
                 </td>            
             </tr>
         )

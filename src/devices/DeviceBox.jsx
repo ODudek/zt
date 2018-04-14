@@ -1,17 +1,19 @@
 import React from "react";
 import DeviceForm from './DeviceForm';
 import DeviceList from './DeviceList';
+import Notification from './Notification';
 import axios from 'axios';
 
 class DeviceBox extends React.Component{
     constructor(props) {
         super(props);
-        this.state = { data: [] };
-        this.store = [];
+        this.state = { hide: false, data: [], isUpdated: false, type: 'is-success', isRemoved: false, isAdded: false}
         this.loadDevices = this.loadDevices.bind(this);
         this.handleDeviceSubmit = this.handleDeviceSubmit.bind(this);
         this.handleDeviceDelete = this.handleDeviceDelete.bind(this);
         this.handleDeviceUpdate = this.handleDeviceUpdate.bind(this);
+        this.autoHideNotification = this.autoHideNotification.bind(this);
+        this.closeNotification = this.closeNotification.bind(this);
     }
 
     componentDidMount() {
@@ -34,6 +36,7 @@ class DeviceBox extends React.Component{
         this.setState({ data: newDevices })
         axios
             .post(this.props.url, device)
+            .then(this.setState({isAdded: true}))
             .catch(err => {
                 console.error(err);
             })
@@ -50,9 +53,22 @@ class DeviceBox extends React.Component{
     handleDeviceUpdate(id, device) {
         axios
             .put(`${this.props.url}/${id}`, device)
+            .then(this.setState({isUpdated: true}))
             .catch(err => {
                 console.error(err);
             })
+    }
+
+    autoHideNotification() {
+        const ONE_SECOND = 1000;
+        setTimeout(() => {
+            this.setState({hide: true})
+            this.setState({isUpdated: false})
+        }, ONE_SECOND * 5);
+    }
+
+    closeNotification() {
+        this.setState({isUpdated: false})
     }
 
     render() {
@@ -70,6 +86,11 @@ class DeviceBox extends React.Component{
                         </div>
                     </div>
                 </section>
+                <div className="container box-notification">
+                {(this.state.isUpdated) ?
+                        <Notification message="Zaktualizowano urządzenie" type={this.state.type} hide={this.autoHideNotification} close={this.closeNotification}/>
+                :null}
+                </div>
                 <div className="container">
                     <DeviceList onDeviceDelete={ this.handleDeviceDelete } onDeviceUpdate={ this.handleDeviceUpdate } data={ this.state.data }/>
                 </div>
