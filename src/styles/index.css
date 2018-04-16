@@ -34,5 +34,30 @@ input[type="checkbox"] {
 }
 
 .show {
-    animation: .3s ease-out 0s 1 showElement;    
+    animation: .3s ease-out 0s 1 showElement;
+}
+
+.navbar {
+    background: none;
+    width: 50px;
+}
+
+.button:hover {
+    transition: all .2s ease-out;
+}
+
+.right {
+    position: fixed;
+    right: 0;
+    bottom: 4%;
+    left: 94%;
+    z-index: 30;
+}
+
+th {
+    cursor: pointer;
+}
+
+th:hover {
+    background: aqua;
 }

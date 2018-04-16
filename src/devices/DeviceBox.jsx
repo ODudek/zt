@@ -1,20 +1,21 @@
 import React from "react";
-import DeviceForm from './DeviceForm';
 import DeviceList from './DeviceList';
 import Notification from './Notification';
+import DeviceModal from './DeviceModal';
 import axios from 'axios';
 
 class DeviceBox extends React.Component{
     constructor(props) {
         super(props);
-        this.state = { hide: false, data: [], isUpdated: false, isRemoved: false, isAdded: false, device: {}}
+        this.state = { hide: false, data: [], isUpdated: false, isRemoved: false, isAdded: false, isModalOpened: false}
         this.loadDevices = this.loadDevices.bind(this);
         this.handleDeviceSubmit = this.handleDeviceSubmit.bind(this);
         this.handleDeviceDelete = this.handleDeviceDelete.bind(this);
         this.handleDeviceUpdate = this.handleDeviceUpdate.bind(this);
         this.autoHideNotification = this.autoHideNotification.bind(this);
         this.closeNotification = this.closeNotification.bind(this);
-        this.getDevice = this.getDevice.bind(this);
+        this.openModal = this.openModal.bind(this);
+        this.addDevice = this.addDevice.bind(this);
     }
 
     componentDidMount() {
@@ -52,18 +53,6 @@ class DeviceBox extends React.Component{
             })
     }
 
-    getDevice(id) {
-        let device;
-        axios
-            .get(`${this.props.url}/${id}`)
-            .then(res => {
-                console.log(res.data)
-                device = res.data
-            })
-        console.log(device)
-        return device
-    }
-
     handleDeviceUpdate(id, device) {
         axios
             .put(`${this.props.url}/${id}`, device)
@@ -83,6 +72,14 @@ class DeviceBox extends React.Component{
 
     closeNotification() {
         this.setState({isUpdated: false, isAdded: false, isRemoved: false})
+    }
+
+    openModal() {
+        this.setState({isModalOpened: true})
+    }
+
+    addDevice(isAdded) {
+        this.setState({isModalOpened: isAdded})
     }
 
     render() {
@@ -114,7 +111,14 @@ class DeviceBox extends React.Component{
                 <div className="container">
                     <DeviceList onDeviceDelete={ this.handleDeviceDelete } onDeviceUpdate={ this.handleDeviceUpdate } data={ this.state.data }/>
                 </div>
-                <DeviceForm onDeviceSubmit={ this.handleDeviceSubmit }/>                
+                <div className="right">
+                    <span className="icon is-large button is-primary is-outlined is-rounded" onClick={this.openModal}>
+                        <i className="fa fa-plus" aria-hidden="true"></i>
+                    </span>
+                </div>
+                {(this.state.isModalOpened) ?
+                    <DeviceModal onDeviceSubmit={ this.handleDeviceSubmit } isAdded={this.addDevice} btnLabel="Dodaj" title="Dodaj urządzenie"/>                
+                :null}               
             </div>
         )
     }

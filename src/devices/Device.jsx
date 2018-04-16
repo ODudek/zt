@@ -42,7 +42,8 @@ class Device extends React.Component{
                         </div>
                     </div>
                     {(this.state.toBeUpdated) ? 
-                    <DeviceModal uniqueID={this.props.uniqueID} isUpdated={ this.isUpdated } onDeviceUpdate={ this.props.onDeviceUpdate } device={this.props.children}/>
+                    <DeviceModal uniqueID={this.props.uniqueID} isUpdated={ this.isUpdated } onDeviceUpdate={ this.props.onDeviceUpdate } 
+                    device={this.props.children} btnLabel="Zaktualizuj" title="Aktualizuj urządzenie"/>
                     : null}                
                 </td>            
             </tr>

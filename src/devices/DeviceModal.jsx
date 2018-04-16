@@ -3,7 +3,7 @@ import React from 'react';
 class DeviceModal extends React.Component {
     constructor(props){
         super(props);
-        this.state = { toBeUpdated: false, model: '', system: '', available: 'Niedostępne', holder: ''}; 
+        this.state = { toBeUpdated: false, model: '', system: '', available: 'Niedostępne', holder: '', isAdded: false}; 
         this.closeModal = this.closeModal.bind(this);
         this.handleDeviceUpdate = this.handleDeviceUpdate.bind(this);
         this.handleModelChange = this.handleModelChange.bind(this);
@@ -16,7 +16,11 @@ class DeviceModal extends React.Component {
         let $modal = document.querySelector('#modal');
         $modal.classList = 'modal';
         this.setState({ toBeUpdated: false })
-        this.props.isUpdated(this.state.toBeUpdated)         
+        if(this.props.isUpdated){
+            this.props.isUpdated(this.state.toBeUpdated)
+        } else {
+            this.props.isAdded(this.state.isAdded)
+        }
     }
 
     handleModelChange(e) {
@@ -43,17 +47,28 @@ class DeviceModal extends React.Component {
         this.setState({ holder: e.target.value })
     }
 
-    handleDeviceUpdate(e) {
-        e.preventDefault();
-        let id = this.props.uniqueID;
+    buildNewDevice() {
         let model = (this.state.model) ? this.state.model : null;
         let system = (this.state.system) ? this.state.system : null;
         let available = (this.state.available) ? this.state.available : null;
         let holder = (this.state.holder) ? this.state.holder : null;
         let device = { model: model, system: system, available: available, holder: holder };
-        this.props.onDeviceUpdate(id, device);
-        this.setState({ toBeUpdated: false, model: '', system: '', available: 'Niedostępne', holder: ''}); 
-        this.props.isUpdated(this.state.toBeUpdated) 
+        return device
+    }
+
+    handleDeviceUpdate(e) {
+        e.preventDefault();
+        let device = this.buildNewDevice()
+        let id = this.props.uniqueID;
+        if(this.props.isUpdated){
+            this.props.onDeviceUpdate(id, device);
+            this.setState({ toBeUpdated: false, model: '', system: '', available: 'Niedostępne', holder: ''}); 
+            this.props.isUpdated(this.state.toBeUpdated) 
+        } else {
+            this.props.onDeviceSubmit(device)
+            this.setState({ toBeUpdated: false, model: '', system: '', available: 'Niedostępne', holder: ''});     
+            this.props.isAdded(this.state.isAdded)                    
+        }
     }
 
     checkCheckBox() {
@@ -63,24 +78,29 @@ class DeviceModal extends React.Component {
     }
 
     componentDidMount() { 
-        this.setState({model: this.props.device[0], system: this.props.device[1], holder: this.props.device[3]})
-        if(this.props.device[2] === 'Dostępne') {
-            this.setState({available: this.props.device[2]});
-            this.checkCheckBox()            
+        if(this.props.device){
+            this.setState({model: this.props.device[0], system: this.props.device[1], holder: this.props.device[3]})
+            if(this.props.device[2] === 'Dostępne') {
+                this.setState({available: this.props.device[2]});
+                this.checkCheckBox()            
+            }
+        } else {
+            this.checkCheckBox()
         }
+        
     }
 
     render() {
         return(
-            <div id="modal" className="modal is-active" >
-                        <div className="modal-background"></div>
-                        <div className="modal-card">
-                        <header className="modal-card-head">
-                        <p className="modal-card-title">Edytuj urządzenie</p>
+            <div id="modal" className="modal is-active">
+                <div className="modal-background"></div>
+                <div className="modal-card">
+                    <header className="modal-card-head">
+                        <p className="modal-card-title">{this.props.title}</p>
                         <button className="delete" aria-label="close" onClick={this.closeModal}></button>
-                        </header>
-                        <form onSubmit={this.handleDeviceUpdate}>
-                            <section className="modal-card-body">
+                    </header>
+                    <form onSubmit={this.handleDeviceUpdate}>
+                        <section className="modal-card-body">
                             <div className="field">
                                 <label htmlFor="model" className="label">Model urządzenia:</label>
                                 <div className="control">
@@ -108,15 +128,14 @@ class DeviceModal extends React.Component {
                                     </label>  
                                 </div>                          
                             </div>
-                            </section>
-                            <footer className="modal-card-foot">
+                        </section>
+                        <footer className="modal-card-foot">
                             <div className="field">
-                                <input type="submit" value="Zaktualizuj" className="button is-primary"/>
+                                <input type="submit" value={this.props.btnLabel} className="button is-primary"/>
                             </div>
-                            </footer>
-                        </form>
-                        
-                        </div>
+                        </footer>
+                    </form>
+                </div>
             </div>
         )
     }
