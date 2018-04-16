@@ -42,38 +42,49 @@ router.route('/devices')
         device.model = req.body.model;
         device.system = req.body.system;
         device.available = req.body.available;
-        device.holder = req.body.holder;        
+        device.holder = req.body.holder;
 
         device.save((err) => {
             if (err)
                 res.send(err)
-                res.json({
-                    message: 'Comment successfully added!'
-                })
+            res.json({
+                message: 'Comment successfully added!'
+            })
         })
     })
 
 router.route('/devices/:device_id')
-    .put((req, res) =>{
-        if(req.params.device_id === 'undefined')
-        return;
-        Device.findById(req.params.device_id, function(err, device){
-            (req.body.model) ? device.model = req.body.model : null;
-            (req.body.system) ? device.system = req.body.system : null;            
-            (req.body.available) ? device.available = req.body.available : null;            
-            (req.body.holder) ? device.holder = req.body.holder : null; 
-            device.save((err) =>{
+    .put((req, res) => {
+        if (req.params.device_id === 'undefined')
+            return;
+        Device.findById(req.params.device_id, function (err, device) {
+            (req.body.model) ? device.model = req.body.model: null;
+            (req.body.system) ? device.system = req.body.system: null;
+            (req.body.available) ? device.available = req.body.available: null;
+            (req.body.holder) ? device.holder = req.body.holder: null;
+            device.save((err) => {
                 if (err)
-                res.send(err);
-                res.json({ message: 'Device has been updated'});
+                    res.send(err);
+                res.json({
+                    message: 'Device has been updated'
+                });
             })
         })
     })
-    .delete((req, res) =>{
-        Device.remove({ _id: req.params.device_id }, (err) => {
-            if(err)
-            res.send(err)
-            res.json({ message: 'Device has been deleted' })
+    .delete((req, res) => {
+        Device.remove({
+            _id: req.params.device_id
+        }, (err) => {
+            if (err)
+                res.send(err)
+            res.json({
+                message: 'Device has been deleted'
+            })
+        })
+    })
+    .get((req, res) => {
+        Device.findById(req.params.device_id, function(err, device) {
+            res.json(device)
         })
     })
 app.use('/api', router);

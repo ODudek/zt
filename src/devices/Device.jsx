@@ -42,7 +42,7 @@ class Device extends React.Component{
                         </div>
                     </div>
                     {(this.state.toBeUpdated) ? 
-                    <DeviceModal uniqueID={this.props.uniqueID} isUpdated={ this.isUpdated } onDeviceUpdate={ this.props.onDeviceUpdate }/>
+                    <DeviceModal uniqueID={this.props.uniqueID} isUpdated={ this.isUpdated } onDeviceUpdate={ this.props.onDeviceUpdate } device={this.props.children}/>
                     : null}                
                 </td>            
             </tr>

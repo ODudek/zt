@@ -8,7 +8,7 @@ class Notification extends React.Component {
 
     render() {
         return(
-                <div className={`notification ${this.props.type}`}>
+                <div className={`notification show`}>
                     <button className="delete" onClick={this.props.close}></button>
                     {this.props.message}
                 </div>

@@ -29,12 +29,13 @@ class DeviceModal extends React.Component {
 
     handleAvailableChange(e) {
         let $hiddenCheck = document.querySelector('[name="unavailable"]')        
-        if(e.target.checked) {
-            this.setState({ available: $hiddenCheck.value })                                               
-            $hiddenCheck.disabled = true;
+        if(e.target.checked) {                
+            this.setState({ available: e.target.value })                                               
+            $hiddenCheck.disabled = false;
         } else {
-            this.setState({ available: e.target.value })               
-            $hiddenCheck.disabled = false;          
+            e.target.checked = false;        
+            this.setState({ available: $hiddenCheck.value })               
+            $hiddenCheck.disabled = true;          
         }
     }
 
@@ -55,9 +56,23 @@ class DeviceModal extends React.Component {
         this.props.isUpdated(this.state.toBeUpdated) 
     }
 
+    checkCheckBox() {
+        let $check = document.querySelector('[name="available"]')
+        $check.checked = true;
+        this.setState({available: 'Dostępne'})
+    }
+
+    componentDidMount() { 
+        this.setState({model: this.props.device[0], system: this.props.device[1], holder: this.props.device[3]})
+        if(this.props.device[2] === 'Dostępne') {
+            this.setState({available: this.props.device[2]});
+            this.checkCheckBox()            
+        }
+    }
+
     render() {
         return(
-            <div id="modal" className="modal is-active">
+            <div id="modal" className="modal is-active" >
                         <div className="modal-background"></div>
                         <div className="modal-card">
                         <header className="modal-card-head">
@@ -69,34 +84,34 @@ class DeviceModal extends React.Component {
                             <div className="field">
                                 <label htmlFor="model" className="label">Model urządzenia:</label>
                                 <div className="control">
-                                    <input type="text" name="model" onChange={this.handleModelChange} className="input" required/>
+                                    <input type="text" name="model" onChange={this.handleModelChange} className="input" required value={this.state.model}/>
                                 </div>
                             </div>
                             <div className="field">
                                 <label htmlFor="system" className="label">System urządzenia:</label>
                                 <div className="control">
-                                    <input type="text" name="system" onChange={this.handleSystemChange} className="input" required/>   
+                                    <input type="text" name="system" onChange={this.handleSystemChange} className="input" required value={this.state.system}/>   
                                 </div>
                             </div>
                             <div className="field">
                                 <label htmlFor="holder" className="label">Kto posiada:</label>
                                 <div className="control">
-                                    <input type="text" name="holder" onChange={this.handleHolderChange} className="input" required/>
+                                    <input type="text" name="holder" onChange={this.handleHolderChange} className="input" required value={this.state.holder}/>
                                 </div>
                             </div>                
                             <div className="field"> 
                                 <div className="control">
                                     <label className="checkbox label">
                                         Dostępność:                                
-                                        <input type="checkbox" name="available" value="Niedostępne" onChange={this.handleAvailableChange}/> 
-                                        <input type="hidden" name="unavailable" value="Dostępne"/> 
+                                        <input type="checkbox" name="available" value="Dostępne" onChange={this.handleAvailableChange}/> 
+                                        <input type="hidden" name="unavailable" value="Niedostępne"/> 
                                     </label>  
                                 </div>                          
                             </div>
                             </section>
                             <footer className="modal-card-foot">
                             <div className="field">
-                                <input type="submit" value="Dodaj" className="button is-primary"/>
+                                <input type="submit" value="Zaktualizuj" className="button is-primary"/>
                             </div>
                             </footer>
                         </form>

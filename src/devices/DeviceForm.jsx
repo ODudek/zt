@@ -9,6 +9,7 @@ class DeviceForm extends React.Component {
         this.handleAvailableChange = this.handleAvailableChange.bind(this);
         this.handleHolderChange = this.handleHolderChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.checkCheckBox = this.checkCheckBox.bind(this);
     }
 
     handleModelChange(e) {
@@ -21,12 +22,13 @@ class DeviceForm extends React.Component {
 
     handleAvailableChange(e) {
         let $hiddenCheck = document.querySelector('[name="unavailable"]')        
-        if(e.target.checked) {
-            this.setState({ available: $hiddenCheck.value })                                               
-            $hiddenCheck.disabled = true;
+        if(e.target.checked) {                
+            this.setState({ available: e.target.value })                                               
+            $hiddenCheck.disabled = false;
         } else {
-            this.setState({ available: e.target.value })               
-            $hiddenCheck.disabled = false;          
+            e.target.checked = false;        
+            this.setState({ available: $hiddenCheck.value })               
+            $hiddenCheck.disabled = true;          
         }
     }
 
@@ -40,8 +42,19 @@ class DeviceForm extends React.Component {
             return;
         }
         this.props.onDeviceSubmit({model: this.state.model, system: this.state.system, available: this.state.available, holder: this.state.holder})
-        this.setState({ model: '', system: '', available: 'Niedostępne', holder: ''})
-        e.target.reset();       
+        this.setState({ model: '', system: '', holder: ''})
+        e.target.reset();   
+        this.checkCheckBox()    
+    }
+
+    checkCheckBox() {
+        let $check = document.querySelector('[name="available"]')
+        $check.checked = true;
+        this.setState({available: 'Dostępne'})
+    }
+
+    componentDidMount() {
+        this.checkCheckBox()
     }
 
     render() {
@@ -72,8 +85,8 @@ class DeviceForm extends React.Component {
                                 <div className="control has-text-centered">
                                     <label className="checkbox label">
                                         Dostępność:                                
-                                        <input type="checkbox" name="available" value="Niedostępne" onChange={this.handleAvailableChange}/> 
-                                        <input type="hidden" name="unavailable" value="Dostępne"/> 
+                                        <input type="checkbox" name="available" value="Dostępne" onChange={this.handleAvailableChange}/> 
+                                        <input type="hidden" name="unavailable" value="Niedostępne"/> 
                                     </label>  
                                 </div>                          
                             </div>
