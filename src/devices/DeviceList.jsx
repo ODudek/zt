@@ -10,13 +10,13 @@ class DeviceList extends React.Component {
     }
 
     sort (arr, index, direction, event) {
-        let rows, switching, shouldSwitch;
+        let rows, switching, i, shouldSwitch;
         const table = event.target.closest('table')        
    switching = true;
   while (switching) {
     switching = false;
      rows = table.getElementsByTagName("TR");
-    for (let i = 1; i < (rows.length - 1); i++) {
+    for (i = 1; i < (rows.length - 1); i++) {
        shouldSwitch = false;
       let x = rows[i].getElementsByTagName("TD")[index];
       let y = rows[i + 1].getElementsByTagName("TD")[index];
@@ -42,7 +42,6 @@ class DeviceList extends React.Component {
     handleSort (e) {
         let arr = Array.from(e.target.parentNode.children)
         let index = arr.indexOf(e.target)
-        console.log(index)
         if(this.state.sortToggle){
         this.sort(arr, index, "upper", e)            
         this.setState({sortToggle: !this.state.sortToggle})            
