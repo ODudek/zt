@@ -16,7 +16,7 @@ Projekt strony dla zespołu testów w Cyfrowym Polsacie
 6. - [ ] Stworzyć podstrony `backlog` oraz `W trakcie realizacji` (trzeba pomyśleć jak miałoby to wyglądać) [~]
 7. - [ ] Kliknięcie wyświetla informację na temat urządzenia (Pomyśleć nad widokiem) [~]
 8. - [ ] Zrobić stronę z urlopami (Wypisane miesiące i mozna wpisywać kto kiedy ma urlop) [3]
-9. - [ ] Zamienić SetInterval który jest `Pseudo RealTime` na `socket.io` który faktycznie odświezy stronę gdy pojawi się nowy wpis na serwerze (przebudowa logiki aplikacj)[15]
+9. - [x] Zamienić SetInterval który jest `Pseudo RealTime` na `socket.io` który faktycznie odświezy stronę gdy pojawi się nowy wpis na serwerze (przebudowa logiki aplikacj)[15]
 10. - [ ] Dodać `redux` do projektu który ułatwi komunikację między komponentami [~]
 11. - [x] Zmienić formularz dodawania urządzeń, na ikonę `plus`, a po kliknięciu wyświetla się modal (Sprawdzić czy mozna skorzystać z istniejącego komponentu `DeviceModal`)
 12. - [ ] Obsługa braku internetu
@@ -25,3 +25,7 @@ Projekt strony dla zespołu testów w Cyfrowym Polsacie
 13. - [ ] Obsługa błędów
 14. - [ ] PWA - https://piecioshka.pl/blog/2017/05/07/jak-przerobic-strone-na-pwa.html
 15. - [ ] Przebudować server (utworzyć odpowiednie funkcje oraz callbacki)
+16. - [ ] Server Side Rendering
+17. - [ ] Stworzyć model `User`
+18. - [ ] Przebudować server tak aby sprawdzał dane logowania
+19. - [ ] Dokończyć logowanie - Obecnie jeśli w `DeviceBox` zmienimy `credential` na `true` pojawiają się elementy widoczne po zalogowaniu
