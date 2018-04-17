@@ -19,7 +19,6 @@ class LoginBox extends React.Component {
 
   handleLogin(e) {
     e.preventDefault();
-    console.log(this.state);
     this.setState({logIn: true})
   }
 

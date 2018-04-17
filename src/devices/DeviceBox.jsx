@@ -1,9 +1,9 @@
+import axios from "axios";
 import React from "react";
 import DeviceList from "./DeviceList";
-import Notification from "./Notification";
 import DeviceModal from "./DeviceModal";
-import axios from "axios";
 import Header from "./Header";
+import Notification from "./Notification";
 
 class DeviceBox extends React.Component {
   constructor(props) {
@@ -29,10 +29,6 @@ class DeviceBox extends React.Component {
   }
 
   componentDidMount() {
-    this.loadDevices();
-  }
-
-  componentDidUpdate() {
     this.loadDevices();
   }
 
@@ -94,13 +90,13 @@ class DeviceBox extends React.Component {
   }
 
   logIn(credential) {
-    this.setState({credential: credential})
+    this.setState({ credential: credential });
   }
 
   render() {
     return (
       <div className="DeviceBox">
-        <Header credential={this.state.credential} onLogin={this.logIn}/>
+        <Header credential={this.state.credential} onLogin={this.logIn} />
         <div className="container box-notification">
           {this.state.isUpdated ? (
             <Notification

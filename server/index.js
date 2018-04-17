@@ -7,7 +7,7 @@ const app = express();
 const router = express.Router();
 const port = process.env.API_PORT || 3001;
 
-mongoose.connect("mongodb://adudek3:Olek.dudek1@ds055905.mlab.com:55905/zt");
+mongoose.connect("mongodb://test:test123@ds055905.mlab.com:55905/zt");
 
 app.use(
   bodyParser.urlencoded({
