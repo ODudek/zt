@@ -15,7 +15,8 @@ class DeviceBox extends React.Component {
       isRemoved: false,
       isAdded: false,
       isModalOpened: false,
-      credential: false
+      credential: false,
+      deviceUrl: `${this.props.url}/devices`
     };
     this.loadDevices = this.loadDevices.bind(this);
     this.handleDeviceSubmit = this.handleDeviceSubmit.bind(this);
@@ -25,15 +26,17 @@ class DeviceBox extends React.Component {
     this.closeNotification = this.closeNotification.bind(this);
     this.openModal = this.openModal.bind(this);
     this.addDevice = this.addDevice.bind(this);
-    this.logIn = this.logIn.bind(this);
+    this.handleLogIn = this.handleLogIn.bind(this);
+    this.handleLogOut = this.handleLogOut.bind(this);
   }
 
   componentDidMount() {
     this.loadDevices();
+    this.checkCredential();
   }
 
   loadDevices() {
-    axios.get(this.props.url).then(res => {
+    axios.get(this.state.deviceUrl).then(res => {
       this.setState({ data: res.data });
     });
   }
@@ -44,7 +47,7 @@ class DeviceBox extends React.Component {
     let newDevices = devices.concat([device]);
     this.setState({ data: newDevices });
     axios
-      .post(this.props.url, device)
+      .post(this.state.deviceUrl, device)
       .then(this.setState({ isAdded: true }))
       .catch(err => {
         console.error(err);
@@ -53,7 +56,7 @@ class DeviceBox extends React.Component {
 
   handleDeviceDelete(id) {
     axios
-      .delete(`${this.props.url}/${id}`)
+      .delete(`${this.state.deviceUrl}/${id}`)
       .then(this.setState({ isRemoved: true }))
       .catch(err => {
         console.error(err);
@@ -62,7 +65,7 @@ class DeviceBox extends React.Component {
 
   handleDeviceUpdate(id, device) {
     axios
-      .put(`${this.props.url}/${id}`, device)
+      .put(`${this.state.deviceUrl}/${id}`, device)
       .then(this.setState({ isUpdated: true }))
       .catch(err => {
         console.error(err);
@@ -89,14 +92,50 @@ class DeviceBox extends React.Component {
     this.setState({ isModalOpened: isAdded });
   }
 
-  logIn(credential) {
-    this.setState({ credential: credential });
+  handleLogIn(login) {
+    axios.post(`${this.props.url}/auth`, login).then(res => {
+      if (res.data.success) {
+        this.setState({ credential: true });
+        this.storageUser(login);
+      } else {
+        this.setState({ credential: false });
+      }
+    });
+  }
+
+  storageUser(login) {
+    localStorage.setItem("login", JSON.stringify(login));
+  }
+
+  destroyStorageUser() {
+    localStorage.removeItem("login");
+  }
+
+  checkCredential() {
+    let credential = localStorage.getItem("login");
+    let objCredential = JSON.parse(credential);
+    if (objCredential) {
+      if (objCredential.login && objCredential.password) {
+        this.setState({ credential: true });
+      }
+    } else {
+      this.setState({ credential: false });
+    }
+  }
+
+  handleLogOut() {
+    this.destroyStorageUser();
+    this.setState({ credential: false });
   }
 
   render() {
     return (
       <div className="DeviceBox">
-        <Header credential={this.state.credential} onLogin={this.logIn} />
+        <Header
+          credential={this.state.credential}
+          handleLogIn={this.handleLogIn}
+          handleLogOut={this.handleLogOut}
+        />
         <div className="container box-notification">
           {this.state.isUpdated ? (
             <Notification

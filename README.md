@@ -20,11 +20,10 @@ Projekt strony dla zespołu testów w Cyfrowym Polsacie (Nieoficjalna)
 12. - [ ] PWA - https://piecioshka.pl/blog/2017/05/07/jak-przerobic-strone-na-pwa.html
 13. - [ ] Przebudować serwer (utworzyć odpowiednie funkcje oraz callbacki)
 14. - [ ] Server Side Rendering
-15. - [ ] Stworzyć model `User`
-16. - [ ] Przebudować serwer tak aby sprawdzał dane logowania
-17. - [ ] Dokończyć logowanie - Obecnie jeśli w `DeviceBox` zmienimy `credential` na `true` pojawiają się elementy widoczne po zalogowaniu
+15. - [x] Stworzyć model `User`
+16. - [x] Przebudować serwer tak aby sprawdzał dane logowania
+17. - [x] Dokończyć logowanie - Obecnie jeśli w `DeviceBox` zmienimy `credential` na `true` pojawiają się elementy widoczne po zalogowaniu
 18. - [ ] Napisać testy dla komponentów oraz dla serwera
-
 
 ## How to use
 
@@ -34,6 +33,11 @@ $ npm start				# run react
 $ npm run server			# run server
 ```
 
+## Testowe konto do logowania
+```
+$ login: test
+$ password: test123
+```
 ## Screenshots
 
 1. Zalogowany

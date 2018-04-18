@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const Device = require("./model/devices");
+const User = require("./model/users");
 
 const app = express();
 const router = express.Router();
@@ -55,7 +56,7 @@ router
     device.save(err => {
       if (err) res.send(err);
       res.json({
-        message: "Comment successfully added!"
+        message: "Dodano urządzenie"
       });
     });
   });
@@ -72,7 +73,7 @@ router
       device.save(err => {
         if (err) res.send(err);
         res.json({
-          message: "Device has been updated"
+          message: "Urządzenie zostało zaktualizowane"
         });
       });
     });
@@ -85,7 +86,7 @@ router
       err => {
         if (err) res.send(err);
         res.json({
-          message: "Device has been deleted"
+          message: "Usunięto urządzenie"
         });
       }
     );
@@ -95,6 +96,31 @@ router
       res.json(device);
     });
   });
+
+router.route("/auth").post((req, res) => {
+  User.findOne({ login: req.body.login }, function(err, user) {
+    if (err) throw err;
+    if (!user) {
+      res.json({
+        success: false,
+        message: "Nie ma takiego uzytkownika"
+      });
+    } else if (user) {
+      if (user.password != req.body.password) {
+        res.json({
+          success: false,
+          message: "Błędne hasło"
+        });
+      } else {
+        res.json({
+          success: true,
+          message: "Zalogowano"
+        });
+      }
+    }
+  });
+});
+
 app.use("/api", router);
 
 app.listen(port, () => {

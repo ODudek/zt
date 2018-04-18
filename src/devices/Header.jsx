@@ -11,7 +11,18 @@ class Header extends React.Component {
             <h2 className="subtitle">Lista urządzeń zespołu testów</h2>
           </div>
         </div>
-        {!this.props.credential ? <LoginBox credential={this.props.credential}/> : null}
+        {!this.props.credential ? (
+          <LoginBox
+            credential={this.props.credential}
+            handleLogIn={this.props.handleLogIn}
+          />
+        ) : (
+          <div className="log-out">
+            <button className="button" onClick={this.props.handleLogOut}>
+              Wyloguj
+            </button>
+          </div>
+        )}
       </div>
     );
   }

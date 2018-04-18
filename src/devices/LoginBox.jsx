@@ -1,25 +1,27 @@
 import React from "react";
+import hash from "js-md5";
 
 class LoginBox extends React.Component {
   constructor() {
     super();
-    this.state = { login: '', password: '', logIn: false };
+    this.state = { login: "", password: "" };
     this.handleLogin = this.handleLogin.bind(this);
     this.handleLoginChange = this.handleLoginChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
   }
 
   handleLoginChange(e) {
-    this.setState({login: e.target.value})
+    this.setState({ login: e.target.value });
   }
 
   handlePasswordChange(e) {
-      this.setState({password: e.target.value})
+    let hashPassword = hash.update(e.target.value).hex();
+    this.setState({ password: hashPassword });
   }
 
   handleLogin(e) {
     e.preventDefault();
-    this.setState({logIn: true})
+    this.props.handleLogIn(this.state);
   }
 
   render() {
