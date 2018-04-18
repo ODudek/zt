@@ -4,7 +4,7 @@ import Device from "./Device";
 class DeviceList extends React.Component {
   constructor() {
     super();
-    this.state = { sortToggle: true};
+    this.state = { sortToggle: true };
     this.sort = this.sort.bind(this);
     this.handleSort = this.handleSort.bind(this);
   }

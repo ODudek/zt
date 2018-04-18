@@ -5,7 +5,7 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <DeviceBox url="http://localhost:3001/api/" />
+        <DeviceBox url="http://localhost:3001/api" />
       </div>
     );
   }

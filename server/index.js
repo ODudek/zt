@@ -17,7 +17,7 @@ app.use(
 );
 app.use(bodyParser.json());
 
-app.use((req, res, next) => {
+function headerSettings(res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-control-Allow-Credentials", "true");
   res.setHeader(
@@ -29,13 +29,42 @@ app.use((req, res, next) => {
     "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers"
   );
   res.setHeader("Cache-Control", "no-cache");
-  next();
-});
+}
 
-router.get("/", (req, res) => {
-  res.json({
-    message: "API Initialized!"
+function addNewDevice(req, res) {
+  const device = new Device();
+  device.model = req.body.model;
+  device.system = req.body.system;
+  device.available = req.body.available;
+  device.holder = req.body.holder;
+
+  device.save(err => {
+    if (err) res.send(err);
+    res.json({
+      message: "Dodano urządzenie"
+    });
   });
+}
+
+function updateDevice(req, res) {
+  if (req.params.device_id === "undefined") return;
+  Device.findById(req.params.device_id, function(err, device) {
+    req.body.model ? (device.model = req.body.model) : null;
+    req.body.system ? (device.system = req.body.system) : null;
+    req.body.available ? (device.available = req.body.available) : null;
+    req.body.holder ? (device.holder = req.body.holder) : null;
+    device.save(err => {
+      if (err) res.send(err);
+      res.json({
+        message: "Urządzenie zostało zaktualizowane"
+      });
+    });
+  });
+}
+
+app.use((req, res, next) => {
+  headerSettings(res);
+  next();
 });
 
 router
@@ -46,59 +75,27 @@ router
       res.json(devices);
     });
   })
-  .post((req, res) => {
-    const device = new Device();
-    device.model = req.body.model;
-    device.system = req.body.system;
-    device.available = req.body.available;
-    device.holder = req.body.holder;
-
-    device.save(err => {
-      if (err) res.send(err);
-      res.json({
-        message: "Dodano urządzenie"
-      });
-    });
-  });
+  .post(addNewDevice);
 
 router
   .route("/devices/:device_id")
-  .put((req, res) => {
-    if (req.params.device_id === "undefined") return;
-    Device.findById(req.params.device_id, function(err, device) {
-      req.body.model ? (device.model = req.body.model) : null;
-      req.body.system ? (device.system = req.body.system) : null;
-      req.body.available ? (device.available = req.body.available) : null;
-      req.body.holder ? (device.holder = req.body.holder) : null;
-      device.save(err => {
-        if (err) res.send(err);
-        res.json({
-          message: "Urządzenie zostało zaktualizowane"
-        });
+  .put(updateDevice)
+  .delete((req, res) => {
+    Device.remove({ _id: req.params.device_id }, err => {
+      if (err) res.send(err);
+      res.json({
+        message: "Usunięto urządzenie"
       });
     });
   })
-  .delete((req, res) => {
-    Device.remove(
-      {
-        _id: req.params.device_id
-      },
-      err => {
-        if (err) res.send(err);
-        res.json({
-          message: "Usunięto urządzenie"
-        });
-      }
-    );
-  })
   .get((req, res) => {
-    Device.findById(req.params.device_id, function(err, device) {
+    Device.findById(req.params.device_id, (err, device) => {
       res.json(device);
     });
   });
 
 router.route("/auth").post((req, res) => {
-  User.findOne({ login: req.body.login }, function(err, user) {
+  User.findOne({ login: req.body.login }, (err, user) => {
     if (err) throw err;
     if (!user) {
       res.json({

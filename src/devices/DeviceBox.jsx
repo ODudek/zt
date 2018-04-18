@@ -28,6 +28,8 @@ class DeviceBox extends React.Component {
     this.addDevice = this.addDevice.bind(this);
     this.handleLogIn = this.handleLogIn.bind(this);
     this.handleLogOut = this.handleLogOut.bind(this);
+    this.deleteDeviceFromList = this.deleteDeviceFromList.bind(this);
+    this.updateDeviceList = this.updateDeviceList.bind(this);
   }
 
   componentDidMount() {
@@ -54,19 +56,43 @@ class DeviceBox extends React.Component {
       });
   }
 
+  deleteDeviceFromList(id) {
+    let devices = this.state.data;
+    devices.forEach(device => {
+      if (device._id === id) {
+        let index = devices.indexOf(device);
+        devices.splice(index, 1);
+      }
+    });
+  }
+
   handleDeviceDelete(id) {
     axios
       .delete(`${this.state.deviceUrl}/${id}`)
       .then(this.setState({ isRemoved: true }))
+      .then(this.deleteDeviceFromList(id))
       .catch(err => {
         console.error(err);
       });
+  }
+
+  updateDeviceList(id, updatedDevice) {
+    let devices = this.state.data;
+    devices.forEach(device => {
+      if (device._id === id) {
+        device.model = updatedDevice.model;
+        device.system = updatedDevice.system;
+        device.available = updatedDevice.available;
+        device.holder = updatedDevice.holder;
+      }
+    });
   }
 
   handleDeviceUpdate(id, device) {
     axios
       .put(`${this.state.deviceUrl}/${id}`, device)
       .then(this.setState({ isUpdated: true }))
+      .then(this.updateDeviceList(id, device))
       .catch(err => {
         console.error(err);
       });
