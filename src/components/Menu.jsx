@@ -19,7 +19,6 @@ class Menu extends React.Component {
   changeClass(e) {
     let a = e.target;
     let parent = a.parentNode;
-    console.log(parent);
     this.clearActive();
     parent.classList = "is-active";
   }
@@ -27,7 +26,6 @@ class Menu extends React.Component {
     return (
       <Router>
         <div>
-          <h1>Location: {this.props.location}</h1>
           <div className="tabs">
             <ul>
               <li className="is-active" onClick={this.changeClass}>
