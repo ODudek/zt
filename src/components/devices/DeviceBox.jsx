@@ -2,8 +2,7 @@ import axios from "axios";
 import React from "react";
 import DeviceList from "./DeviceList";
 import DeviceModal from "./DeviceModal";
-import Header from "./Header";
-import Notification from "./Notification";
+import Notification from "../Notification";
 
 class DeviceBox extends React.Component {
   constructor(props) {
@@ -15,7 +14,6 @@ class DeviceBox extends React.Component {
       isRemoved: false,
       isAdded: false,
       isModalOpened: false,
-      credential: false,
       deviceUrl: `${this.props.url}/devices`
     };
     this.loadDevices = this.loadDevices.bind(this);
@@ -26,15 +24,12 @@ class DeviceBox extends React.Component {
     this.closeNotification = this.closeNotification.bind(this);
     this.openModal = this.openModal.bind(this);
     this.addDevice = this.addDevice.bind(this);
-    this.handleLogIn = this.handleLogIn.bind(this);
-    this.handleLogOut = this.handleLogOut.bind(this);
     this.deleteDeviceFromList = this.deleteDeviceFromList.bind(this);
     this.updateDeviceList = this.updateDeviceList.bind(this);
   }
 
   componentDidMount() {
     this.loadDevices();
-    this.checkCredential();
   }
 
   loadDevices() {
@@ -118,50 +113,9 @@ class DeviceBox extends React.Component {
     this.setState({ isModalOpened: isAdded });
   }
 
-  handleLogIn(login) {
-    axios.post(`${this.props.url}/auth`, login).then(res => {
-      if (res.data.success) {
-        this.setState({ credential: true });
-        this.storageUser(login);
-      } else {
-        this.setState({ credential: false });
-      }
-    });
-  }
-
-  storageUser(login) {
-    localStorage.setItem("login", JSON.stringify(login));
-  }
-
-  destroyStorageUser() {
-    localStorage.removeItem("login");
-  }
-
-  checkCredential() {
-    let credential = localStorage.getItem("login");
-    let objCredential = JSON.parse(credential);
-    if (objCredential) {
-      if (objCredential.login && objCredential.password) {
-        this.setState({ credential: true });
-      }
-    } else {
-      this.setState({ credential: false });
-    }
-  }
-
-  handleLogOut() {
-    this.destroyStorageUser();
-    this.setState({ credential: false });
-  }
-
   render() {
     return (
       <div className="DeviceBox">
-        <Header
-          credential={this.state.credential}
-          handleLogIn={this.handleLogIn}
-          handleLogOut={this.handleLogOut}
-        />
         <div className="container box-notification">
           {this.state.isUpdated ? (
             <Notification
@@ -190,10 +144,10 @@ class DeviceBox extends React.Component {
             onDeviceDelete={this.handleDeviceDelete}
             onDeviceUpdate={this.handleDeviceUpdate}
             data={this.state.data}
-            credential={this.state.credential}
+            credential={this.props.credential}
           />
         </div>
-        {this.state.credential ? (
+        {this.props.credential ? (
           <div className="add">
             <div className="right">
               <span

@@ -4,7 +4,7 @@ import DeviceModal from "./DeviceModal";
 class Device extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { toBeUpdated: false};
+    this.state = { toBeUpdated: false };
     this.deleteDevice = this.deleteDevice.bind(this);
     this.updateDevice = this.updateDevice.bind(this);
     this.isUpdated = this.isUpdated.bind(this);
