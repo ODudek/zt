@@ -2,11 +2,17 @@ import React from "react";
 import Header from "./components/Header";
 import axios from "axios";
 import Menu from "./components/Menu";
+import { Provider } from "react-redux";
+import store from "./store";
 
 class App extends React.Component {
   constructor() {
     super();
-    this.state = { credential: false, url: "http://localhost:3001/api" };
+    this.state = {
+      credential: false,
+      url: "http://localhost:3001/api",
+      failLogIn: false
+    };
     this.handleLogIn = this.handleLogIn.bind(this);
     this.checkCredential = this.checkCredential.bind(this);
     this.handleLogOut = this.handleLogOut.bind(this);
@@ -20,8 +26,10 @@ class App extends React.Component {
     axios.post(`${this.state.url}/auth`, login).then(res => {
       if (res.data.success) {
         this.setState({ credential: true });
+        this.setState({ failLogIn: false });
         this.storageUser(login);
       } else {
+        this.setState({ failLogIn: true });
         this.setState({ credential: false });
       }
     });
@@ -54,19 +62,22 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="App">
-        <Header
-          credential={this.state.credential}
-          handleLogIn={this.handleLogIn}
-          handleLogOut={this.handleLogOut}
-        />
-        <Menu
-          url={this.state.url}
-          handleLogOut={this.handleLogOut}
-          handleLogIn={this.handleLogIn}
-          credential={this.state.credential}
-        />
-      </div>
+      <Provider store={store}>
+        <div className="App">
+          <Header
+            failLogIn={this.state.failLogIn}
+            credential={this.state.credential}
+            handleLogIn={this.handleLogIn}
+            handleLogOut={this.handleLogOut}
+          />
+          <Menu
+            url={this.state.url}
+            handleLogOut={this.handleLogOut}
+            handleLogIn={this.handleLogIn}
+            credential={this.state.credential}
+          />
+        </div>
+      </Provider>
     );
   }
 }

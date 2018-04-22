@@ -1,4 +1,7 @@
 import React from "react";
+import { connect } from "react-redux";
+import { showModal, hideModal } from "../../actions/modalActions";
+import propTypes from "prop-types";
 
 class DeviceModal extends React.Component {
   constructor(props) {
@@ -13,29 +16,14 @@ class DeviceModal extends React.Component {
     };
     this.closeModal = this.closeModal.bind(this);
     this.handleDeviceUpdate = this.handleDeviceUpdate.bind(this);
-    this.handleModelChange = this.handleModelChange.bind(this);
-    this.handleSystemChange = this.handleSystemChange.bind(this);
     this.handleAvailableChange = this.handleAvailableChange.bind(this);
-    this.handleHolderChange = this.handleHolderChange.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   closeModal() {
     let $modal = document.querySelector("#modal");
     $modal.classList = "modal";
-    this.setState({ toBeUpdated: false });
-    if (this.props.isUpdated) {
-      this.props.isUpdated(this.state.toBeUpdated);
-    } else {
-      this.props.isAdded(this.state.isAdded);
-    }
-  }
-
-  handleModelChange(e) {
-    this.setState({ model: e.target.value });
-  }
-
-  handleSystemChange(e) {
-    this.setState({ system: e.target.value });
+    this.props.hideModal();
   }
 
   handleAvailableChange(e) {
@@ -50,8 +38,8 @@ class DeviceModal extends React.Component {
     }
   }
 
-  handleHolderChange(e) {
-    this.setState({ holder: e.target.value });
+  handleChange(e) {
+    this.setState({ [e.target.name]: e.target.value });
   }
 
   buildNewDevice() {
@@ -81,7 +69,6 @@ class DeviceModal extends React.Component {
         available: "Niedostępne",
         holder: ""
       });
-      this.props.isUpdated(this.state.toBeUpdated);
     } else {
       this.props.onDeviceSubmit(device);
       this.setState({
@@ -91,7 +78,7 @@ class DeviceModal extends React.Component {
         available: "Niedostępne",
         holder: ""
       });
-      this.props.isAdded(this.state.isAdded);
+      this.closeModal();
     }
   }
 
@@ -140,7 +127,7 @@ class DeviceModal extends React.Component {
                   <input
                     type="text"
                     name="model"
-                    onChange={this.handleModelChange}
+                    onChange={this.handleChange}
                     className="input"
                     required
                     value={this.state.model}
@@ -155,7 +142,7 @@ class DeviceModal extends React.Component {
                   <input
                     type="text"
                     name="system"
-                    onChange={this.handleSystemChange}
+                    onChange={this.handleChange}
                     className="input"
                     required
                     value={this.state.system}
@@ -170,7 +157,7 @@ class DeviceModal extends React.Component {
                   <input
                     type="text"
                     name="holder"
-                    onChange={this.handleHolderChange}
+                    onChange={this.handleChange}
                     className="input"
                     required
                     value={this.state.holder}
@@ -212,4 +199,14 @@ class DeviceModal extends React.Component {
   }
 }
 
-export default DeviceModal;
+DeviceModal.propTypes = {
+  isModal: propTypes.bool.isRequired,
+  showModal: propTypes.func.isRequired,
+  hideModal: propTypes.func.isRequired
+};
+
+const mapStateToProps = state => ({
+  isModal: state.modal.isOpen
+});
+
+export default connect(mapStateToProps, { showModal, hideModal })(DeviceModal);

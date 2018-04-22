@@ -13,6 +13,7 @@ class Header extends React.Component {
         </div>
         {!this.props.credential ? (
           <LoginBox
+            failLogIn={this.props.failLogIn}
             credential={this.props.credential}
             handleLogIn={this.props.handleLogIn}
           />

@@ -15,6 +15,8 @@ Projekt strony dla zespołu testów w Cyfrowym Polsacie (Nieoficjalna)
 7. - [ ] Zrobić stronę z urlopami (Wypisane miesiące i mozna wpisywać kto kiedy ma urlop) 
 8. - [x] Zamienić SetInterval który jest `Pseudo RealTime` na `socket.io` lub uzyć `eventemitter` który faktycznie odświezy content gdy pojawi się nowy wpis na serwerze (przebudowa logiki aplikacj) - Obecnie aby zobaczyć zmiany trzeba odświezyć stronę
 9. - [ ] Dodać `redux` do projektu który ułatwi komunikację między komponentami 
+	- [ ] Dokończyć przy aktualizacji uzupełnić formularz danymi, odświezyć listę po kliknięciu `Zaktualizuj`
+	- [ ] Dokończyć przy usuwaniu, usuwanie go z widoku bez odświezania strony
 10. - [x] Zmienić formularz dodawania urządzeń, na ikonę `plus`, a po kliknięciu wyświetla się modal (Sprawdzić czy mozna skorzystać z istniejącego komponentu `DeviceModal`)
 11. - [ ] Obsługa błędów
 12. - [ ] PWA - https://piecioshka.pl/blog/2017/05/07/jak-przerobic-strone-na-pwa.html
@@ -24,6 +26,7 @@ Projekt strony dla zespołu testów w Cyfrowym Polsacie (Nieoficjalna)
 16. - [x] Przebudować serwer tak aby sprawdzał dane logowania
 17. - [x] Dokończyć logowanie - Obecnie jeśli w `DeviceBox` zmienimy `credential` na `true` pojawiają się elementy widoczne po zalogowaniu
 18. - [ ] Napisać testy dla komponentów oraz dla serwera
+19. - [x] Stworzyć `router` dla podstrony
 
 ## How to use
 

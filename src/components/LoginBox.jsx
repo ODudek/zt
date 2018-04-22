@@ -34,18 +34,20 @@ class LoginBox extends React.Component {
           <div className="card-content">
             <div className="field">
               <input
-                className="input"
+                className={`input ${this.props.failLogIn ? "is-danger" : null}`}
                 type="text"
                 placeholder="Login"
                 onChange={this.handleLoginChange}
+                required
               />
             </div>
             <div className="field">
               <input
-                className="input"
+                className={`input ${this.props.failLogIn ? "is-danger" : null}`}
                 type="password"
                 placeholder="Hasło"
                 onChange={this.handlePasswordChange}
+                required
               />
             </div>
           </div>

@@ -3,62 +3,39 @@ import React from "react";
 import DeviceList from "./DeviceList";
 import DeviceModal from "./DeviceModal";
 import Notification from "../Notification";
+import { connect } from "react-redux";
+import {
+  fetchDevices,
+  newDevice,
+  updateDevice,
+  deleteDevice
+} from "../../actions/deviceActions";
+import { showModal } from "../../actions/modalActions.js";
+import propTypes from "prop-types";
 
 class DeviceBox extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       hide: false,
-      data: [],
       isUpdated: false,
       isRemoved: false,
-      isAdded: false,
-      isModalOpened: false,
-      deviceUrl: `${this.props.url}/devices`
+      isAdded: false
     };
-    this.loadDevices = this.loadDevices.bind(this);
     this.handleDeviceSubmit = this.handleDeviceSubmit.bind(this);
     this.handleDeviceDelete = this.handleDeviceDelete.bind(this);
-    this.handleDeviceUpdate = this.handleDeviceUpdate.bind(this);
     this.autoHideNotification = this.autoHideNotification.bind(this);
     this.closeNotification = this.closeNotification.bind(this);
-    this.openModal = this.openModal.bind(this);
     this.addDevice = this.addDevice.bind(this);
-    this.deleteDeviceFromList = this.deleteDeviceFromList.bind(this);
     this.updateDeviceList = this.updateDeviceList.bind(this);
   }
 
   componentDidMount() {
-    this.loadDevices();
-  }
-
-  loadDevices() {
-    axios.get(this.state.deviceUrl).then(res => {
-      this.setState({ data: res.data });
-    });
+    this.props.fetchDevices();
   }
 
   handleDeviceSubmit(device) {
-    let devices = this.state.data;
-    device._id = Date.now();
-    let newDevices = devices.concat([device]);
-    this.setState({ data: newDevices });
-    axios
-      .post(this.state.deviceUrl, device)
-      .then(this.setState({ isAdded: true }))
-      .catch(err => {
-        console.error(err);
-      });
-  }
-
-  deleteDeviceFromList(id) {
-    let devices = this.state.data;
-    devices.forEach(device => {
-      if (device._id === id) {
-        let index = devices.indexOf(device);
-        devices.splice(index, 1);
-      }
-    });
+    this.props.newDevice(device);
   }
 
   handleDeviceDelete(id) {
@@ -72,7 +49,7 @@ class DeviceBox extends React.Component {
   }
 
   updateDeviceList(id, updatedDevice) {
-    let devices = this.state.data;
+    let devices = this.props.devices;
     devices.forEach(device => {
       if (device._id === id) {
         device.model = updatedDevice.model;
@@ -81,16 +58,6 @@ class DeviceBox extends React.Component {
         device.holder = updatedDevice.holder;
       }
     });
-  }
-
-  handleDeviceUpdate(id, device) {
-    axios
-      .put(`${this.state.deviceUrl}/${id}`, device)
-      .then(this.setState({ isUpdated: true }))
-      .then(this.updateDeviceList(id, device))
-      .catch(err => {
-        console.error(err);
-      });
   }
 
   autoHideNotification() {
@@ -105,13 +72,7 @@ class DeviceBox extends React.Component {
     this.setState({ isUpdated: false, isAdded: false, isRemoved: false });
   }
 
-  openModal() {
-    this.setState({ isModalOpened: true });
-  }
-
-  addDevice(isAdded) {
-    this.setState({ isModalOpened: isAdded });
-  }
+  addDevice(isAdded) {}
 
   render() {
     return (
@@ -141,9 +102,9 @@ class DeviceBox extends React.Component {
         </div>
         <div className="container">
           <DeviceList
-            onDeviceDelete={this.handleDeviceDelete}
-            onDeviceUpdate={this.handleDeviceUpdate}
-            data={this.state.data}
+            onDeviceDelete={this.props.deleteDevice}
+            onDeviceUpdate={this.props.updateDevice}
+            data={this.props.devices}
             credential={this.props.credential}
           />
         </div>
@@ -152,12 +113,12 @@ class DeviceBox extends React.Component {
             <div className="right">
               <span
                 className="icon is-large button is-primary is-outlined is-rounded"
-                onClick={this.openModal}
+                onClick={this.props.showModal}
               >
                 <i className="fa">&#xf067;</i>
               </span>
             </div>
-            {this.state.isModalOpened ? (
+            {this.props.isModal ? (
               <DeviceModal
                 onDeviceSubmit={this.handleDeviceSubmit}
                 isAdded={this.addDevice}
@@ -172,4 +133,28 @@ class DeviceBox extends React.Component {
   }
 }
 
-export default DeviceBox;
+DeviceBox.propTypes = {
+  fetchDevices: propTypes.func.isRequired,
+  devices: propTypes.array.isRequired,
+  newDevice: propTypes.func.isRequired,
+  url: propTypes.string,
+  isModal: propTypes.bool.isRequired,
+  showModal: propTypes.func.isRequired,
+  updateDevice: propTypes.func.isRequired,
+  deleteDevice: propTypes.func.isRequired
+};
+
+const mapStateToProps = state => ({
+  devices: state.devices.items,
+  newDevice: state.devices.item,
+  url: state.devices.url,
+  isModal: state.modal.isOpen
+});
+
+export default connect(mapStateToProps, {
+  fetchDevices,
+  newDevice,
+  showModal,
+  updateDevice,
+  deleteDevice
+})(DeviceBox);

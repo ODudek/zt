@@ -10,18 +10,21 @@ class Menu extends React.Component {
     super();
     this.changeClass = this.changeClass.bind(this);
   }
-  clearActive() {
+
+  clearActiveElement() {
     let $activeElements = document.querySelectorAll(".is-active");
     $activeElements.forEach(active => {
       active.classList = "";
     });
   }
+
   changeClass(e) {
     let a = e.target;
     let parent = a.parentNode;
-    this.clearActive();
+    this.clearActiveElement();
     parent.classList = "is-active";
   }
+
   render() {
     return (
       <Router>
@@ -48,7 +51,6 @@ class Menu extends React.Component {
             path="/"
             render={() => (
               <DeviceBox
-                url={this.props.url}
                 handleLogOut={this.props.handleLogOut}
                 handleLogIn={this.props.handleLogIn}
                 credential={this.props.credential}
