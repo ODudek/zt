@@ -30,10 +30,6 @@ input[type="checkbox"] {
   margin-bottom: 1rem;
 }
 
-/* .show {
-  animation: 0.3s ease-out 0s 1 showElement;
-} */
-
 .navbar {
   background: none;
   width: 50px;
