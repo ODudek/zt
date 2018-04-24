@@ -5,8 +5,8 @@ Projekt strony dla zespołu testów w Cyfrowym Polsacie (Nieoficjalna)
 ## TODO
 
 1. - [x] Zrobić modal
-		- [x] - Uzupełnianie go aktualnymi danymi 
-		- [x] - Zrobić animacje
+	* - [x] - Uzupełnianie go aktualnymi danymi 
+	* - [x] - Zrobić animacje
 2. - [x] - Zrobić formularz dodawania urządzeń
 3. - [x] Zrobić powiadomienia o zaktualizowaniu, dodaniu oraz usunieciu urzadzenia 
 4. - [x] Zrobić sortowanie kolumn (Poprawić hover oraz refactor funkcji `sort`)
@@ -14,12 +14,13 @@ Projekt strony dla zespołu testów w Cyfrowym Polsacie (Nieoficjalna)
 6. - [ ] Zrobić stronę z urlopami (Wypisane miesiące i mozna wpisywać kto kiedy ma urlop) 
 7. - [x] Zamienić SetInterval który jest `Pseudo RealTime` na `socket.io` lub uzyć `eventemitter` który faktycznie odświezy content gdy pojawi się nowy wpis na serwerze (przebudowa logiki aplikacj) - Obecnie aby zobaczyć zmiany trzeba odświezyć stronę
 8. - [x] Dodać `redux` do projektu który ułatwi komunikację między komponentami 
-	- [x] Dokończyć przy aktualizacji uzupełnić formularz danymi, odświezyć listę po kliknięciu `Zaktualizuj`
-	- [x] Dokończyć przy usuwaniu, usuwanie go z widoku bez odświezania strony
-	- [x] BUG - Po dodaniu urządzenia i bez odświezenia strony nie mozna usunąć urządzenia, przyczyną jest to, ze to urządzenie ma `id` utworzone po stronie reacta, a nie po stronie bazy danych
+	* - [x] Dokończyć przy aktualizacji uzupełnić formularz danymi, odświezyć listę po kliknięciu `Zaktualizuj`
+	* - [x] Dokończyć przy usuwaniu, usuwanie go z widoku bez odświezania strony
+	* - [x] BUG - Po dodaniu urządzenia i bez odświezenia strony nie mozna usunąć urządzenia, przyczyną jest to, ze to urządzenie ma `id` utworzone po stronie reacta, a nie po stronie bazy danych
 9. - [x] Zmienić formularz dodawania urządzeń, na ikonę `plus`, a po kliknięciu wyświetla się modal (Sprawdzić czy mozna skorzystać z istniejącego komponentu `DeviceModal`)
 10. - [ ] Obsługa błędów
-11. - [ ] PWA - https://piecioshka.pl/blog/2017/05/07/jak-przerobic-strone-na-pwa.html
+11. - [x] PWA - https://piecioshka.pl/blog/2017/05/07/jak-przerobic-strone-na-pwa.html
+	* - [ ] Nadal tylko 82 (jeden z powodów brak https), oraz poprawić `Performance` wynik to równiez 82
 12. - [x] Przebudować serwer (utworzyć odpowiednie funkcje oraz callbacki)
 13. - [ ] Server Side Rendering
 14. - [x] Stworzyć model `User`
