@@ -46,7 +46,7 @@ class DeviceBox extends React.Component {
       <div className="DeviceBox">
         <div className="container box-notification" />
         <div className="container">
-          <DeviceList credential={this.props.credential} />
+          <DeviceList />
         </div>
         {this.props.credential ? (
           <div className="add">
@@ -78,15 +78,14 @@ DeviceBox.propTypes = {
   devices: propTypes.array.isRequired,
   createDevice: propTypes.func.isRequired,
   clearDevice: propTypes.func.isRequired,
-  url: propTypes.string,
   isModal: propTypes.bool.isRequired,
   showModal: propTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
   devices: state.devices.items,
-  url: state.devices.url,
-  isModal: state.modal.isOpen
+  isModal: state.modal.isOpen,
+  credential: state.auth.credential
 });
 
 export default connect(mapStateToProps, {

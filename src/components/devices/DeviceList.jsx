@@ -61,11 +61,7 @@ class DeviceList extends React.Component {
 
   render() {
     let deviceNodes = this.props.devices.map(device => (
-      <Device
-        key={device["_id"]}
-        uniqueID={device["_id"]}
-        credential={this.props.credential}
-      >
+      <Device key={device["_id"]} uniqueID={device["_id"]}>
         {device.model}
         {device.system}
         {device.holder}
@@ -101,12 +97,14 @@ class DeviceList extends React.Component {
 
 DeviceList.propTypes = {
   devices: propTypes.array.isRequired,
-  device: propTypes.object
+  device: propTypes.object,
+  credential: propTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({
   devices: state.devices.items,
-  device: state.devices.item
+  device: state.devices.item,
+  credential: state.auth.credential
 });
 
 export default connect(mapStateToProps, {})(DeviceList);

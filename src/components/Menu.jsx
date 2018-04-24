@@ -49,13 +49,7 @@ class Menu extends React.Component {
             onChange={this.isActive}
             exact={true}
             path="/"
-            render={() => (
-              <DeviceBox
-                handleLogOut={this.props.handleLogOut}
-                handleLogIn={this.props.handleLogIn}
-                credential={this.props.credential}
-              />
-            )}
+            component={DeviceBox}
           />
           <Route
             exact

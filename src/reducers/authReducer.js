@@ -16,5 +16,7 @@ export default function(state = initialState, action) {
         ...state,
         credential: false
       };
+    default:
+      return state;
   }
 }

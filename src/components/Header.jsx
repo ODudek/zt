@@ -1,7 +1,20 @@
 import React from "react";
 import LoginBox from "./LoginBox";
+import { connect } from "react-redux";
+import propTypes from "prop-types";
+import { logOut } from "../actions/authActions";
 
 class Header extends React.Component {
+  constructor() {
+    super();
+    this.destroyStorageUser = this.destroyStorageUser.bind(this);
+  }
+
+  destroyStorageUser() {
+    this.props.logOut();
+    localStorage.removeItem("login");
+  }
+
   render() {
     return (
       <div className="hero is-info">
@@ -12,14 +25,10 @@ class Header extends React.Component {
           </div>
         </div>
         {!this.props.credential ? (
-          <LoginBox
-            failLogIn={this.props.failLogIn}
-            credential={this.props.credential}
-            handleLogIn={this.props.handleLogIn}
-          />
+          <LoginBox />
         ) : (
           <div className="log-out">
-            <button className="button" onClick={this.props.handleLogOut}>
+            <button className="button" onClick={this.destroyStorageUser}>
               Wyloguj
             </button>
           </div>
@@ -29,4 +38,13 @@ class Header extends React.Component {
   }
 }
 
-export default Header;
+Header.propTypes = {
+  credential: propTypes.bool.isRequired,
+  logOut: propTypes.func.isRequired
+};
+
+const mapStateToProps = state => ({
+  credential: state.auth.credential
+});
+
+export default connect(mapStateToProps, { logOut })(Header);

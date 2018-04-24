@@ -1,4 +1,9 @@
-import { SHOW_MODAL, HIDE_MODAL,MODAL_ADD,MODAL_UPDATE } from "../actions/types";
+import {
+  SHOW_MODAL,
+  HIDE_MODAL,
+  MODAL_ADD,
+  MODAL_UPDATE
+} from "../actions/types";
 
 const initialState = {
   isOpen: false,

@@ -1,5 +1,8 @@
 import React from "react";
 import hash from "js-md5";
+import { connect } from "react-redux";
+import propTypes from "prop-types";
+import { logIn } from "../actions/authActions";
 
 class LoginBox extends React.Component {
   constructor() {
@@ -21,7 +24,12 @@ class LoginBox extends React.Component {
 
   handleLogin(e) {
     e.preventDefault();
-    this.props.handleLogIn(this.state);
+    this.props.logIn(this.state);
+    this.storageUser(this.state);
+  }
+
+  storageUser(login) {
+    localStorage.setItem("login", JSON.stringify(login));
   }
 
   render() {
@@ -65,4 +73,13 @@ class LoginBox extends React.Component {
   }
 }
 
-export default LoginBox;
+LoginBox.propTypes = {
+  credential: propTypes.bool.isRequired,
+  logIn: propTypes.func.isRequired
+};
+
+const mapStateToProps = state => ({
+  credential: state.auth.credential
+});
+
+export default connect(mapStateToProps, { logIn })(LoginBox);

@@ -11,23 +11,24 @@ Projekt strony dla zespołu testów w Cyfrowym Polsacie (Nieoficjalna)
 3. - [x] Zrobić powiadomienia o zaktualizowaniu, dodaniu oraz usunieciu urzadzenia 
 4. - [x] Zrobić sortowanie kolumn (Poprawić hover oraz refactor funkcji `sort`)
 5. - [ ] Stworzyć podstrony `backlog` oraz `W trakcie realizacji` (trzeba pomyśleć jak miałoby to wyglądać)
-6. - [ ] Kliknięcie wyświetla informację na temat urządzenia (Pomyśleć nad widokiem)
-7. - [ ] Zrobić stronę z urlopami (Wypisane miesiące i mozna wpisywać kto kiedy ma urlop) 
-8. - [x] Zamienić SetInterval który jest `Pseudo RealTime` na `socket.io` lub uzyć `eventemitter` który faktycznie odświezy content gdy pojawi się nowy wpis na serwerze (przebudowa logiki aplikacj) - Obecnie aby zobaczyć zmiany trzeba odświezyć stronę
-9. - [ ] Dodać `redux` do projektu który ułatwi komunikację między komponentami 
-	- [ ] Dokończyć przy aktualizacji uzupełnić formularz danymi, odświezyć listę po kliknięciu `Zaktualizuj`
-	- [ ] Dokończyć przy usuwaniu, usuwanie go z widoku bez odświezania strony
-	- [ ] BUG - Po dodaniu urządzenia i bez odświezenia strony nie mozna usunąć urządzenia, przyczyną jest to, ze to urządzenie ma `id` utworzone po stronie reacta, a nie po stronie bazy danych
-10. - [x] Zmienić formularz dodawania urządzeń, na ikonę `plus`, a po kliknięciu wyświetla się modal (Sprawdzić czy mozna skorzystać z istniejącego komponentu `DeviceModal`)
-11. - [ ] Obsługa błędów
-12. - [ ] PWA - https://piecioshka.pl/blog/2017/05/07/jak-przerobic-strone-na-pwa.html
-13. - [x] Przebudować serwer (utworzyć odpowiednie funkcje oraz callbacki)
-14. - [ ] Server Side Rendering
-15. - [x] Stworzyć model `User`
-16. - [x] Przebudować serwer tak aby sprawdzał dane logowania
-17. - [x] Dokończyć logowanie - Obecnie jeśli w `DeviceBox` zmienimy `credential` na `true` pojawiają się elementy widoczne po zalogowaniu
-18. - [ ] Napisać testy dla komponentów oraz dla serwera
-19. - [x] Stworzyć `router` dla podstrony
+6. - [ ] Zrobić stronę z urlopami (Wypisane miesiące i mozna wpisywać kto kiedy ma urlop) 
+7. - [x] Zamienić SetInterval który jest `Pseudo RealTime` na `socket.io` lub uzyć `eventemitter` który faktycznie odświezy content gdy pojawi się nowy wpis na serwerze (przebudowa logiki aplikacj) - Obecnie aby zobaczyć zmiany trzeba odświezyć stronę
+8. - [x] Dodać `redux` do projektu który ułatwi komunikację między komponentami 
+	- [x] Dokończyć przy aktualizacji uzupełnić formularz danymi, odświezyć listę po kliknięciu `Zaktualizuj`
+	- [x] Dokończyć przy usuwaniu, usuwanie go z widoku bez odświezania strony
+	- [x] BUG - Po dodaniu urządzenia i bez odświezenia strony nie mozna usunąć urządzenia, przyczyną jest to, ze to urządzenie ma `id` utworzone po stronie reacta, a nie po stronie bazy danych
+9. - [x] Zmienić formularz dodawania urządzeń, na ikonę `plus`, a po kliknięciu wyświetla się modal (Sprawdzić czy mozna skorzystać z istniejącego komponentu `DeviceModal`)
+10. - [ ] Obsługa błędów
+11. - [ ] PWA - https://piecioshka.pl/blog/2017/05/07/jak-przerobic-strone-na-pwa.html
+12. - [x] Przebudować serwer (utworzyć odpowiednie funkcje oraz callbacki)
+13. - [ ] Server Side Rendering
+14. - [x] Stworzyć model `User`
+15. - [x] Przebudować serwer tak aby sprawdzał dane logowania
+16. - [x] Dokończyć logowanie - Obecnie jeśli w `DeviceBox` zmienimy `credential` na `true` pojawiają się elementy widoczne po zalogowaniu
+17. - [ ] Napisać testy dla komponentów oraz dla serwera
+18. - [x] Stworzyć `router` dla podstrony
+19. - [ ] BUG: Po odświezeniu strony gdy jesteśmy na innej zakładce klasa `is-active` wraca na pierwszy element z menu czyli urządzenia
+20. - [ ] Parsować login i hasło do jednego stringa oraz szyfrować go przy uzyciu `md5` - obecnie tylko hasło jest szyfrowane 
 
 ## How to use
 

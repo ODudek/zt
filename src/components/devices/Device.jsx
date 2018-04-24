@@ -62,9 +62,7 @@ class Device extends React.Component {
                 Usuń
               </button>
             </div>
-            {this.props.isModal ? (
-              <DeviceModal/>
-            ) : null}
+            {this.props.isModal ? <DeviceModal /> : null}
           </td>
         ) : null}
       </tr>
@@ -78,12 +76,14 @@ Device.propTypes = {
   isModal: propTypes.bool.isRequired,
   deleteDevice: propTypes.func.isRequired,
   updateDevice: propTypes.func.isRequired,
-  getDevice: propTypes.func.isRequired
+  getDevice: propTypes.func.isRequired,
+  credential: propTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({
   isModal: state.modal.isOpen,
-  devices: state.devices.items
+  devices: state.devices.items,
+  credential: state.auth.credential
 });
 
 export default connect(mapStateToProps, {
