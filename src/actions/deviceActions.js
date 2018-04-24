@@ -1,9 +1,10 @@
 import {
   FETCH_DEVICES,
   NEW_DEVICE,
+  DELETE_DEVICE,
   UPDATE_DEVICE,
   GET_DEVICE,
-  DELETE_DEVICE
+  CLEAR_DEVICE
 } from "./types";
 import axios from "axios";
 
@@ -18,11 +19,10 @@ export const fetchDevices = () => dispatch => {
   });
 };
 
-export const newDevice = device => dispatch => {
+export const createDevice = device => dispatch => {
   axios
     .post(DEVICE_URL, device)
     .then(res => {
-      console.log(device);
       dispatch({
         type: NEW_DEVICE,
         payload: device
@@ -34,23 +34,51 @@ export const newDevice = device => dispatch => {
 };
 
 export const updateDevice = (id, device) => dispatch => {
-  axios.put(`${DEVICE_URL}/${id}`, device).catch(err => {
-    console.error(err);
-  });
-};
-
-export const deleteDevice = (id, devices) => dispatch => {
   axios
-    .delete(`${DEVICE_URL}/${id}`)
-    .then(
-      devices.forEach(device => {
-        if (device._id === id) {
-          let index = devices.indexOf(device);
-          devices.splice(index, 1);
-        }
-      })
-    )
+    .put(`${DEVICE_URL}/${id}`, device)
+    .then(res => {
+      dispatch({
+        type: UPDATE_DEVICE,
+        payload: device
+      });
+    })
     .catch(err => {
       console.error(err);
     });
+};
+
+export const deleteDevice = (id, devices) => dispatch => {
+  console.log(id);
+  axios
+    .delete(`${DEVICE_URL}/${id}`)
+    .then(res => {
+      dispatch({
+        type: DELETE_DEVICE,
+        payload: devices
+      });
+    })
+    .catch(err => {
+      console.error(err);
+    });
+};
+
+export const getDevice = id => dispatch => {
+  axios
+    .get(`${DEVICE_URL}/${id}`)
+    .then(res => {
+      dispatch({
+        type: GET_DEVICE,
+        payload: res.data
+      });
+    })
+    .catch(err => {
+      console.error(err);
+    });
+};
+
+export const clearDevice = () => dispatch => {
+  dispatch({
+    type: CLEAR_DEVICE,
+    payload: {}
+  });
 };

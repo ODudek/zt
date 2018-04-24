@@ -7,17 +7,15 @@ class DeviceModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      toBeUpdated: false,
+      isUpdate: false,
       model: "",
       system: "",
-      available: "Niedostępne",
-      holder: "",
-      isAdded: false
+      holder: ""
     };
     this.closeModal = this.closeModal.bind(this);
-    this.handleDeviceUpdate = this.handleDeviceUpdate.bind(this);
-    this.handleAvailableChange = this.handleAvailableChange.bind(this);
-    this.handleChange = this.handleChange.bind(this);
+    this.submitForm = this.submitForm.bind(this);
+    this.onInputChange = this.onInputChange.bind(this);
+    this.buildNewDevice = this.buildNewDevice.bind(this);
   }
 
   closeModal() {
@@ -26,82 +24,57 @@ class DeviceModal extends React.Component {
     this.props.hideModal();
   }
 
-  handleAvailableChange(e) {
-    let $hiddenCheck = document.querySelector('[name="unavailable"]');
-    if (e.target.checked) {
-      this.setState({ available: e.target.value });
-      $hiddenCheck.disabled = false;
-    } else {
-      e.target.checked = false;
-      this.setState({ available: $hiddenCheck.value });
-      $hiddenCheck.disabled = true;
-    }
-  }
-
-  handleChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
-  }
-
   buildNewDevice() {
     let model = this.state.model ? this.state.model : null;
     let system = this.state.system ? this.state.system : null;
-    let available = this.state.available ? this.state.available : null;
     let holder = this.state.holder ? this.state.holder : null;
     let device = {
       model: model,
       system: system,
-      available: available,
       holder: holder
     };
     return device;
   }
 
-  handleDeviceUpdate(e) {
+  submitForm(e) {
     e.preventDefault();
     let device = this.buildNewDevice();
-    let id = this.props.uniqueID;
-    if (this.props.isUpdated) {
+    if (this.state.isUpdate) {
+      let id = this.props.device._id;
       this.props.onDeviceUpdate(id, device);
-      this.setState({
-        toBeUpdated: false,
-        model: "",
-        system: "",
-        available: "Niedostępne",
-        holder: ""
-      });
+      this.closeModal();
     } else {
-      this.props.onDeviceSubmit(device);
-      this.setState({
-        toBeUpdated: false,
-        model: "",
-        system: "",
-        available: "Niedostępne",
-        holder: ""
-      });
+      this.props.onDeviceAdd(device);
       this.closeModal();
     }
   }
 
-  checkCheckBox() {
-    let $check = document.querySelector('[name="available"]');
-    $check.checked = true;
-    this.setState({ available: "Dostępne" });
+  onInputChange(e) {
+    this.setState({ [e.target.name]: e.target.value });
+  }
+
+  fillModal() {
+    if (this.props.device._id) {
+      this.setState({
+        model: this.props.device.model,
+        system: this.props.device.system,
+        holder: this.props.device.holder,
+        isUpdate: true
+      });
+    } else {
+      this.setState({
+        model: "",
+        system: "",
+        holder: "",
+        isUpdate: false
+      });
+    }
   }
 
   componentDidMount() {
-    if (this.props.device) {
-      this.setState({
-        model: this.props.device[0],
-        system: this.props.device[1],
-        holder: this.props.device[3]
-      });
-      if (this.props.device[2] === "Dostępne") {
-        this.setState({ available: this.props.device[2] });
-        this.checkCheckBox();
-      }
-    } else {
-      this.checkCheckBox();
-    }
+    setTimeout(() => {
+      this.fillModal();
+    }, 100);
   }
 
   render() {
@@ -117,7 +90,7 @@ class DeviceModal extends React.Component {
               onClick={this.closeModal}
             />
           </header>
-          <form onSubmit={this.handleDeviceUpdate}>
+          <form onSubmit={this.submitForm}>
             <section className="modal-card-body">
               <div className="field">
                 <label htmlFor="model" className="label">
@@ -127,7 +100,7 @@ class DeviceModal extends React.Component {
                   <input
                     type="text"
                     name="model"
-                    onChange={this.handleChange}
+                    onChange={this.onInputChange}
                     className="input"
                     required
                     value={this.state.model}
@@ -142,7 +115,7 @@ class DeviceModal extends React.Component {
                   <input
                     type="text"
                     name="system"
-                    onChange={this.handleChange}
+                    onChange={this.onInputChange}
                     className="input"
                     required
                     value={this.state.system}
@@ -157,29 +130,11 @@ class DeviceModal extends React.Component {
                   <input
                     type="text"
                     name="holder"
-                    onChange={this.handleChange}
+                    onChange={this.onInputChange}
                     className="input"
                     required
                     value={this.state.holder}
                   />
-                </div>
-              </div>
-              <div className="field">
-                <div className="control">
-                  <label className="checkbox label">
-                    Dostępność:
-                    <input
-                      type="checkbox"
-                      name="available"
-                      value="Dostępne"
-                      onChange={this.handleAvailableChange}
-                    />
-                    <input
-                      type="hidden"
-                      name="unavailable"
-                      value="Niedostępne"
-                    />
-                  </label>
                 </div>
               </div>
             </section>
@@ -202,11 +157,13 @@ class DeviceModal extends React.Component {
 DeviceModal.propTypes = {
   isModal: propTypes.bool.isRequired,
   showModal: propTypes.func.isRequired,
-  hideModal: propTypes.func.isRequired
+  hideModal: propTypes.func.isRequired,
+  device: propTypes.object
 };
 
 const mapStateToProps = state => ({
-  isModal: state.modal.isOpen
+  isModal: state.modal.isOpen,
+  device: state.devices.item
 });
 
 export default connect(mapStateToProps, { showModal, hideModal })(DeviceModal);

@@ -1,5 +1,7 @@
 import React from "react";
 import Device from "./Device";
+import { connect } from "react-redux";
+import propTypes from "prop-types";
 
 class DeviceList extends React.Component {
   constructor() {
@@ -58,17 +60,14 @@ class DeviceList extends React.Component {
   }
 
   render() {
-    let deviceNodes = this.props.data.map(device => (
+    let deviceNodes = this.props.devices.map(device => (
       <Device
         key={device["_id"]}
         uniqueID={device["_id"]}
-        onDeviceDelete={this.props.onDeviceDelete}
-        onDeviceUpdate={this.props.onDeviceUpdate}
         credential={this.props.credential}
       >
         {device.model}
         {device.system}
-        {device.available}
         {device.holder}
       </Device>
     ));
@@ -82,9 +81,6 @@ class DeviceList extends React.Component {
               </th>
               <th onClick={this.handleSort}>
                 <i className="fa fa-sort" /> <span> System </span>
-              </th>
-              <th onClick={this.handleSort}>
-                <i className="fa fa-sort" /> <span> Dostępność </span>
               </th>
               <th onClick={this.handleSort}>
                 <i className="fa fa-sort" /> <span> Posiadacz </span>
@@ -103,4 +99,14 @@ class DeviceList extends React.Component {
   }
 }
 
-export default DeviceList;
+DeviceList.propTypes = {
+  devices: propTypes.array.isRequired,
+  device: propTypes.object
+};
+
+const mapStateToProps = state => ({
+  devices: state.devices.items,
+  device: state.devices.item
+});
+
+export default connect(mapStateToProps, {})(DeviceList);

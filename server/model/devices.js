@@ -4,7 +4,6 @@ const Schema = mongoose.Schema;
 const DevicesSchema = new Schema({
   model: String,
   system: String,
-  available: String,
   holder: String
 });
 

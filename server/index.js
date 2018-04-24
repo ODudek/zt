@@ -35,7 +35,6 @@ function addNewDevice(req, res) {
   const device = new Device();
   device.model = req.body.model;
   device.system = req.body.system;
-  device.available = req.body.available;
   device.holder = req.body.holder;
 
   device.save(err => {
@@ -51,7 +50,6 @@ function updateDevice(req, res) {
   Device.findById(req.params.device_id, function(err, device) {
     req.body.model ? (device.model = req.body.model) : null;
     req.body.system ? (device.system = req.body.system) : null;
-    req.body.available ? (device.available = req.body.available) : null;
     req.body.holder ? (device.holder = req.body.holder) : null;
     device.save(err => {
       if (err) res.send(err);

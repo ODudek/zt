@@ -1,7 +1,8 @@
-import { SHOW_MODAL, HIDE_MODAL } from "../actions/types";
+import { SHOW_MODAL, HIDE_MODAL,MODAL_ADD,MODAL_UPDATE } from "../actions/types";
 
 const initialState = {
-  isOpen: false
+  isOpen: false,
+  isUpdate: false
 };
 
 export default function(state = initialState, action) {
@@ -15,6 +16,16 @@ export default function(state = initialState, action) {
       return {
         ...state,
         isOpen: false
+      };
+    case MODAL_UPDATE:
+      return {
+        ...state,
+        isUpdate: true
+      };
+    case MODAL_ADD:
+      return {
+        ...state,
+        isUpdate: false
       };
     default:
       return state;

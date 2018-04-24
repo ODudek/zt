@@ -17,6 +17,7 @@ Projekt strony dla zespołu testów w Cyfrowym Polsacie (Nieoficjalna)
 9. - [ ] Dodać `redux` do projektu który ułatwi komunikację między komponentami 
 	- [ ] Dokończyć przy aktualizacji uzupełnić formularz danymi, odświezyć listę po kliknięciu `Zaktualizuj`
 	- [ ] Dokończyć przy usuwaniu, usuwanie go z widoku bez odświezania strony
+	- [ ] BUG - Po dodaniu urządzenia i bez odświezenia strony nie mozna usunąć urządzenia, przyczyną jest to, ze to urządzenie ma `id` utworzone po stronie reacta, a nie po stronie bazy danych
 10. - [x] Zmienić formularz dodawania urządzeń, na ikonę `plus`, a po kliknięciu wyświetla się modal (Sprawdzić czy mozna skorzystać z istniejącego komponentu `DeviceModal`)
 11. - [ ] Obsługa błędów
 12. - [ ] PWA - https://piecioshka.pl/blog/2017/05/07/jak-przerobic-strone-na-pwa.html

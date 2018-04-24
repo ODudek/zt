@@ -1,4 +1,11 @@
-import { FETCH_DEVICES, NEW_DEVICE } from "../actions/types";
+import {
+  FETCH_DEVICES,
+  NEW_DEVICE,
+  DELETE_DEVICE,
+  UPDATE_DEVICE,
+  GET_DEVICE,
+  CLEAR_DEVICE
+} from "../actions/types";
 
 const initialState = {
   items: [],
@@ -14,6 +21,27 @@ export default function(state = initialState, action) {
         items: action.payload
       };
     case NEW_DEVICE:
+      return {
+        ...state,
+        item: action.payload
+      };
+    case DELETE_DEVICE:
+      return {
+        ...state,
+        items: action.payload,
+        item: {}
+      };
+    case UPDATE_DEVICE:
+      return {
+        ...state,
+        item: action.payload
+      };
+    case GET_DEVICE:
+      return {
+        ...state,
+        item: action.payload
+      };
+    case CLEAR_DEVICE:
       return {
         ...state,
         item: action.payload
