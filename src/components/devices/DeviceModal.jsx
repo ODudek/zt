@@ -74,7 +74,7 @@ class DeviceModal extends React.Component {
   componentDidMount() {
     setTimeout(() => {
       this.fillModal();
-    }, 100);
+    }, 500);
   }
 
   render() {

@@ -71,16 +71,7 @@ class Menu extends React.Component {
               />
             )}
           />
-          <Route
-            exact
-            path="/holiday"
-            render={() => (
-              <HolidayBox
-                url={this.props.url}
-                credential={this.props.credential}
-              />
-            )}
-          />
+          <Route exact path="/holiday" render={() => <HolidayBox />} />
         </div>
       </Router>
     );

@@ -10,6 +10,7 @@ import {
 } from "../../actions/deviceActions";
 import { showModal } from "../../actions/modalActions.js";
 import propTypes from "prop-types";
+import NotificationBox from "../notification/NotificationBox";
 
 class DeviceBox extends React.Component {
   constructor(props) {
@@ -44,7 +45,7 @@ class DeviceBox extends React.Component {
   render() {
     return (
       <div className="DeviceBox">
-        <div className="container box-notification" />
+        <NotificationBox />
         <div className="container">
           <DeviceList />
         </div>

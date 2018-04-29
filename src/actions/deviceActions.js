@@ -6,12 +6,11 @@ import {
   GET_DEVICE,
   CLEAR_DEVICE
 } from "./types";
-import axios from "axios";
-
+import API from "../modules/api";
 const DEVICE_URL = "http://localhost:3001/api/devices";
 
 export const fetchDevices = () => dispatch => {
-  axios.get(DEVICE_URL).then(devices => {
+  API.GET(DEVICE_URL, devices => {
     dispatch({
       type: FETCH_DEVICES,
       payload: devices.data
@@ -20,60 +19,44 @@ export const fetchDevices = () => dispatch => {
 };
 
 export const createDevice = device => dispatch => {
-  axios
-    .post(DEVICE_URL, device)
-    .then(res => {
-      dispatch({
-        type: NEW_DEVICE,
-        payload: device
-      });
-    })
-    .catch(err => {
-      console.error(err);
+  API.POST(DEVICE_URL, device, res => {
+    dispatch({
+      type: NEW_DEVICE,
+      payload: device
     });
+  });
 };
 
 export const updateDevice = (id, device) => dispatch => {
-  axios
-    .put(`${DEVICE_URL}/${id}`, device)
-    .then(res => {
-      dispatch({
-        type: UPDATE_DEVICE,
-        payload: device
-      });
+  let url = `${DEVICE_URL}/${id}`;
+  API.PUT(
+    url,
+    device,
+    dispatch({
+      type: UPDATE_DEVICE,
+      payload: device
     })
-    .catch(err => {
-      console.error(err);
-    });
+  );
 };
 
 export const deleteDevice = (id, devices) => dispatch => {
-  console.log(id);
-  axios
-    .delete(`${DEVICE_URL}/${id}`)
-    .then(res => {
-      dispatch({
-        type: DELETE_DEVICE,
-        payload: devices
-      });
-    })
-    .catch(err => {
-      console.error(err);
+  let url = `${DEVICE_URL}/${id}`;
+  API.DELETE(url, res => {
+    dispatch({
+      type: DELETE_DEVICE,
+      payload: devices
     });
+  });
 };
 
 export const getDevice = id => dispatch => {
-  axios
-    .get(`${DEVICE_URL}/${id}`)
-    .then(res => {
-      dispatch({
-        type: GET_DEVICE,
-        payload: res.data
-      });
-    })
-    .catch(err => {
-      console.error(err);
+  let url = `${DEVICE_URL}/${id}`;
+  API.GET(url, res => {
+    dispatch({
+      type: GET_DEVICE,
+      payload: res.data
     });
+  });
 };
 
 export const clearDevice = () => dispatch => {

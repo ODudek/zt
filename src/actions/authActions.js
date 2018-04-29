@@ -1,6 +1,5 @@
 import { LOGIN, LOGOUT } from "./types";
-import axios from "axios";
-
+import API from "../modules/api";
 const AUTH_URL = "http://localhost:3001/api/auth";
 
 export const logIn = login => dispatch => {
@@ -9,7 +8,7 @@ export const logIn = login => dispatch => {
       type: LOGIN
     });
   } else {
-    axios.post(AUTH_URL, login).then(res => {
+    API.POST(AUTH_URL, login, res => {
       if (res.data.success) {
         dispatch({
           type: LOGIN
@@ -28,3 +27,5 @@ export const logOut = () => dispatch => {
     type: LOGOUT
   });
 };
+
+
